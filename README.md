@@ -5,3 +5,4 @@ Simply give it a bearer token with access to Microsoft Graph and it will provide
 ```powershell
 pwsh -c ./365emailhasher.ps1 $TOKEN
 ```
+
