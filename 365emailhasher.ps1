@@ -40,6 +40,7 @@ foreach ($userInfo in $usersResponse.value) {
 		foreach($message in $messageInfo.value) {
 			$messageSubject = $message.subject
 			$messageDate = $message.receivedDateTime
+			$sender = $message.sender.emailAddress.address
 			if ($message.hasAttachments) {
 				$messageId = $message.id
 				$attachmentInfo = Invoke-RestMethod -Method GET -Headers $headers -Uri https://graph.microsoft.com/v1.0/users/$userId/messages/$messageId/attachments
@@ -47,6 +48,7 @@ foreach ($userInfo in $usersResponse.value) {
 					$decodedMsg = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($attachment.ContentBytes))
 					$md5hash = Get-StringHash $decodedMsg
 					$output = [ordered]@{
+						"Sender" = $sender
 						"Recipient" =  $userPrincipalName
 						"Message Subject" = $messageSubject
 						"Received time" = $messageDate
